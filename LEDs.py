@@ -55,6 +55,7 @@ SIGN_ALL = (
 BACKGROUND_COLOUR = (10, 1, 0)
 DOT_COLOUR = (255, 10, 0)
 
+
 def test_lights():
     fill_list((0, 200, 0), ARROW_TOP_END)
     fill_list((0, 200, 100), ARROW_LINE_TOP_LEFT)
@@ -119,85 +120,42 @@ def animate_sign_border(i: int, dot_colour=DOT_COLOUR, background_colour=BACKGRO
         pixels[position_right] = dot_colour
     if i == 22:
         fill_list(dot_colour, SIGN_BOTTOM)
-        
+
+
 def sign_flash(step: int = 2):
-    for _ in range(7):
-        for i in range(2):
-            # SIGN:
-            fill_list(BACKGROUND_COLOUR, SIGN_ALL)
-            positions_a = SIGN_ALL[i::step]
-            positions_b = SIGN_ALL[i+1::step]
-            fill_list((255, 100, 0), positions_a)
-            fill_list(DOT_COLOUR, positions_b)
-            
-            # ARROW:
-            fill_list(BACKGROUND_COLOUR, ARROW_ALL)
-            positions_a = ARROW_ALL[i::step]
-            positions_b = ARROW_ALL[i+1::step]
-            fill_list((0, 100, 255), positions_a)
-            fill_list((255, 10, 0), positions_b)
-            
-            pixels.show()
-            sleep(0.1)
+    for i in range(15):
+        # SIGN:
+        fill_list(BACKGROUND_COLOUR, SIGN_ALL)
+        positions_a = SIGN_ALL[i%2::step]
+        positions_b = SIGN_ALL[(i%2)+1::step]
+        fill_list((255, 100, 0), positions_a)
+        fill_list(DOT_COLOUR, positions_b)
+        
+        # ARROW:
+        fill_list(BACKGROUND_COLOUR, ARROW_ALL)
+        positions_a = ARROW_ALL[i%2::step]
+        positions_b = ARROW_ALL[(i%2)+1::step]
+        fill_list((0, 100, 255), positions_a)
+        fill_list((255, 10, 0), positions_b)
+        
+        pixels.show()
+        sleep(0.1)
+
 
 def main():
     # Turn on the "sign lights":
     fill_list((255, 255, 255), SIGN_LIGHT_TOP + SIGN_LIGHT_BOTTOM)
     
+    # Animate dot moving down:
     for i in range(0, 41):
         animate_arrow(i)
         animate_sign_border(i)
         pixels.show()
         sleep(0.05)
 
+    # Fun:
     sign_flash()
 
-for _ in range(5):
+
+while True:
     main()
-
-# Handy functions
-def fill_between(colour, start=START, end=END+1):
-    for position in range(start, end):
-        pixels[position] = colour
-
-def up_and_down():
-    MIN_BRIGHTNESS = 10
-    MAX_BRIGHTNESS = 255
-    for repeat in range(1):
-        for direction in [
-            range(MIN_BRIGHTNESS, MAX_BRIGHTNESS),
-            range(MAX_BRIGHTNESS, MIN_BRIGHTNESS, -1)]:
-            for i in direction:
-                colour = (i, i * 0.1, 0)
-                fill_between(colour)
-                pixels.show()
-        
-
-def strobe(delay=0.05):
-    for _ in range(20):
-        fill_between((255, 25, 0))# (40, 8, 0))
-        pixels.show()
-        sleep(delay)
-        fill_between((150, 0, 0))
-        pixels.show()
-        sleep(delay)
-
-
-def colour_madness(delay=0.01):
-    for _ in range(10):
-        fill_between((255, 0, 0))
-        pixels.show()
-        sleep(delay)
-        fill_between((0, 255, 0))
-        pixels.show()
-        sleep(delay)
-        fill_between((0, 0, 255))
-        pixels.show()
-        sleep(delay)
-
-#while True:
-    # up_and_down()
-    # animate_arrow()
-    # strobe()
-    # colour_madness()
-
