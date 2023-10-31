@@ -120,9 +120,28 @@ def animate_sign_border(i: int, dot_colour=DOT_COLOUR, background_colour=BACKGRO
     if i == 22:
         fill_list(dot_colour, SIGN_BOTTOM)
         
+def sign_flash(step: int = 2):
+    for _ in range(7):
+        for i in range(2):
+            # SIGN:
+            fill_list(BACKGROUND_COLOUR, SIGN_ALL)
+            positions_a = SIGN_ALL[i::step]
+            positions_b = SIGN_ALL[i+1::step]
+            fill_list((255, 100, 0), positions_a)
+            fill_list(DOT_COLOUR, positions_b)
+            
+            # ARROW:
+            fill_list(BACKGROUND_COLOUR, ARROW_ALL)
+            positions_a = ARROW_ALL[i::step]
+            positions_b = ARROW_ALL[i+1::step]
+            fill_list((0, 100, 255), positions_a)
+            fill_list((255, 10, 0), positions_b)
+            
+            pixels.show()
+            sleep(0.1)
 
 def main():
-    # Turn on "sign lights":
+    # Turn on the "sign lights":
     fill_list((255, 255, 255), SIGN_LIGHT_TOP + SIGN_LIGHT_BOTTOM)
     
     for i in range(0, 41):
@@ -130,6 +149,8 @@ def main():
         animate_sign_border(i)
         pixels.show()
         sleep(0.05)
+
+    sign_flash()
 
 for _ in range(5):
     main()
