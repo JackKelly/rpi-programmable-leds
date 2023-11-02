@@ -2,6 +2,8 @@
 
 This code runs the "Trick or Treat" sign that we made for Halloween 2023.
 
+![](trick-or-treat-2023.jpg)
+
 See [this short video](https://photos.app.goo.gl/MtTiVnRzfeJ8AVxv7) to see the sign in action.
 
 ## Installation
